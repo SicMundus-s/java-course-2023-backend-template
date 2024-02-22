@@ -7,7 +7,8 @@ public class StackOverflowResourceHandler implements ResourceHandler {
 
     @Override
     public boolean canHandle(String resourceURL) {
-        return resourceURL.contains("stackoverflow.com");
+        String stackOverflowQuestionsPattern = "https:\\/\\/stackoverflow\\.com\\/questions\\/(\\d+)\\/[a-zA-Z0-9-]+";
+        return resourceURL.contains(stackOverflowQuestionsPattern);
     }
 
     @Override
