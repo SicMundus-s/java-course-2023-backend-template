@@ -7,7 +7,7 @@ public class GitHubResourceHandler implements ResourceHandler {
 
     @Override
     public boolean canHandle(String resourceURL) {
-        String gitHubRepoPattern= "https://github\\.com/([A-Za-z0-9_-]+)/([A-Za-z0-9_-]+)";
+        String gitHubRepoPattern = "https://github\\.com/([A-Za-z0-9_-]+)/([A-Za-z0-9_-]+)";
         return resourceURL.matches(gitHubRepoPattern);
     }
 
