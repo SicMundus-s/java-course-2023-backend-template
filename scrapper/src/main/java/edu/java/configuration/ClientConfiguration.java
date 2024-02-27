@@ -9,13 +9,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class ClientConfiguration {
 
-    private static final String DEFAULT_GITHUB_BASE_URL = "https://api.github.com";
-    private static final String DEFAULT_STACKOVERFLOW_BASE_URL = "https://api.stackexchange.com/2.3";
+    private final ApplicationConfig config;
+
+    public ClientConfiguration(ApplicationConfig config) {
+        this.config = config;
+    }
 
     @Bean
     public GitHubClient gitHubClient(WebClient.Builder webClientBuilder) {
         WebClient gitHubWebClient = webClientBuilder
-            .baseUrl(DEFAULT_GITHUB_BASE_URL)
+            .baseUrl(config.baseUrlClient().github())
             .build();
         return new GitHubClient(gitHubWebClient);
     }
@@ -23,7 +26,7 @@ public class ClientConfiguration {
     @Bean
     public StackOverflowClient stackOverflowClient(WebClient.Builder webClientBuilder) {
         WebClient stackOverflowWebClient = webClientBuilder
-            .baseUrl(DEFAULT_STACKOVERFLOW_BASE_URL)
+            .baseUrl(config.baseUrlClient().stackoverflow())
             .build();
         return new StackOverflowClient(stackOverflowWebClient);
     }

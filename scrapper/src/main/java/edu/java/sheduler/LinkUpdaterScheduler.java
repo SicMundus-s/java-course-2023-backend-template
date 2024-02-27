@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 public class LinkUpdaterScheduler {
-    @Scheduled(fixedDelayString = "${app.scheduler.force-check-delay}")
+
+    @Scheduled(fixedDelayString = "#{@scheduler.interval()}")
     public void update() {
         log.info("Updating links...");
     }
