@@ -41,7 +41,7 @@ public class LinkController {
         try {
             link = linkService.addLink(id, URI.create(request.link()));
         } catch (IllegalArgumentException e) {
-            throw new BadRequestException("Incorrect link");
+            throw new BadRequestException("Incorrect link to add");
         }
         return ResponseEntity.ok(link);
     }
@@ -55,14 +55,14 @@ public class LinkController {
         try {
             link = linkService.removeLink(id, URI.create(request.link()));
         } catch (IllegalArgumentException e) {
-            throw new BadRequestException("Incorrect link");
+            throw new BadRequestException("Incorrect link to delete");
         }
         return ResponseEntity.ok(link);
     }
 
     private void idIsIncorrect(Long id) {
         if (id == null || id <= 0) {
-            throw new BadRequestException("id must be greater than zero");
+            throw new BadRequestException("Id must be greater than zero");
         }
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class ChatService {
 
     private final JdbcTemplate jdbcTemplate;
+
     public void registreation(Long id) {
         if (isNotRegistered(id)) {
             throw new BadRequestException("Chat is already registered");

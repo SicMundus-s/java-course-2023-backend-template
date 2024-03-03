@@ -8,6 +8,7 @@ import reactor.core.publisher.Mono;
 public class BotClient {
 
     private final WebClient webClient;
+
     public BotClient(String baseUrl) {
         this.webClient = WebClient.builder()
             .baseUrl(baseUrl)

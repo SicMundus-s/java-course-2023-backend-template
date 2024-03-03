@@ -1,10 +1,13 @@
 package edu.java.scrapper.controller;
 
+import edu.java.core.exception.ApiErrorResponse;
+import edu.java.core.exception.BadRequestException;
+import edu.java.core.exception.NotFoundException;
+import java.util.Arrays;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import java.util.Arrays;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

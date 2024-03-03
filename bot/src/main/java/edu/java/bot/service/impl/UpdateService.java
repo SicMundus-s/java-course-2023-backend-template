@@ -2,12 +2,12 @@ package edu.java.bot.service.impl;
 
 import edu.java.bot.handler.ResourceHandler;
 import edu.java.bot.repository.UrlRepository;
-import java.util.List;
 import edu.java.core.dto.RequestLinkUpdate;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import static edu.java.bot.util.UrlChecker.checkUrlExists;
-// ToDo refactoring
+
 @Service
 public class UpdateService {
     private final List<ResourceHandler> handlers;

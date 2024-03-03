@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UpdateController {
 
     private final UpdateService updateService;
+
     @PostMapping("/updates")
     public ResponseEntity<ResponseLinkUpdate> sendUpdate(@RequestBody RequestLinkUpdate requestLinkUpdate) {
         updateService.update(requestLinkUpdate);
