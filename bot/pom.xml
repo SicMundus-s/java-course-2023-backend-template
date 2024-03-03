@@ -7,6 +7,7 @@
         <groupId>edu.java</groupId>
         <artifactId>root</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>bot</artifactId>
@@ -17,7 +18,7 @@
         <dependency>
             <groupId>edu.java</groupId>
             <artifactId>core</artifactId>
-            <version>0.1</version>
+            <version>${revision}</version>
         </dependency>
 
         <!-- Web -->

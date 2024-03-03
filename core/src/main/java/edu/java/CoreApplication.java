@@ -1,4 +1,4 @@
-package edu.java.core;
+package edu.java;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
