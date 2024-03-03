@@ -7,6 +7,10 @@ app:
     github: "https://api.github.com"
     stackoverflow: "https://api.stackexchange.com/2.3"
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
 spring:
   application:
     name: scrapper

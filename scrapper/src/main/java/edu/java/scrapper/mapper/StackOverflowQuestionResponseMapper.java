@@ -1,4 +1,4 @@
-package edu.java.mapper;
+package edu.java.scrapper.mapper;
 
 import java.time.Instant;
 import java.time.OffsetDateTime;
