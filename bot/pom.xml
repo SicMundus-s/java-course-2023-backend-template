@@ -7,12 +7,20 @@
         <groupId>edu.java</groupId>
         <artifactId>root</artifactId>
         <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>bot</artifactId>
     <version>${revision}</version>
 
     <dependencies>
+        <!-- custom dep -->
+        <dependency>
+            <groupId>edu.java</groupId>
+            <artifactId>core</artifactId>
+            <version>${revision}</version>
+        </dependency>
+
         <!-- Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -35,6 +43,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.3.0</version>
         </dependency>
 
         <!-- Kafka -->

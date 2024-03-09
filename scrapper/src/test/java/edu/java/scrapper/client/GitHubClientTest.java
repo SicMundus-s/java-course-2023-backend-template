@@ -1,8 +1,7 @@
 package edu.java.scrapper.client;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import edu.java.client.GitHubClient;
-import edu.java.dto.GitHubRepositoryResponse;
+import edu.java.scrapper.dto.GitHubRepositoryResponse;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import org.junit.jupiter.api.AfterEach;

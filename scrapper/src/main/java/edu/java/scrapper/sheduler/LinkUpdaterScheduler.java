@@ -1,4 +1,4 @@
-package edu.java.sheduler;
+package edu.java.scrapper.sheduler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

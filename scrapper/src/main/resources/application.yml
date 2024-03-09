@@ -7,9 +7,17 @@ app:
     github: "https://api.github.com"
     stackoverflow: "https://api.stackexchange.com/2.3"
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
 spring:
   application:
     name: scrapper
+  datasource:
+    url: jdbc:postgresql://localhost:5432/scrapper
+    username: postgres
+    password: postgres
 
 server:
   port: 8080

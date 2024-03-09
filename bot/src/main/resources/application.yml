@@ -1,6 +1,9 @@
 app:
   telegram-token: ${TELEGRAM_TOKEN}
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
 
 spring:
   application:

@@ -1,6 +1,6 @@
-package edu.java.service;
+package edu.java.scrapper.service;
 
-import edu.java.client.GitHubClient;
+import edu.java.scrapper.client.GitHubClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

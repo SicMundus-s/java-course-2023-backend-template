@@ -2,6 +2,7 @@ package edu.java.bot.service.impl;
 
 import edu.java.bot.handler.ResourceHandler;
 import edu.java.bot.repository.UrlRepository;
+import edu.java.core.dto.RequestLinkUpdate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class UpdateService {
     }
 
     public void checkUpdates(String resourceURL) {
+        // ToDo remove?
         for (ResourceHandler handler : handlers) {
             if (handler.checkUpdates(resourceURL)) {
                 // ToDo дописать лог и шедуллер для вызова
@@ -34,11 +36,16 @@ public class UpdateService {
     }
 
     private boolean canHandle(String url) {
+        // ToDo remove
         for (ResourceHandler resourceHandler : handlers) {
             if (resourceHandler.canHandle(url)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public void update(RequestLinkUpdate requestLinkUpdate) {
+
     }
 }
