@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v0")
+@RequestMapping("/v0/bot")
 @RequiredArgsConstructor
 public class UpdateController {
 
@@ -19,7 +19,7 @@ public class UpdateController {
 
     @PostMapping("/updates")
     public ResponseEntity<ResponseLinkUpdate> sendUpdate(@RequestBody RequestLinkUpdate requestLinkUpdate) {
-        updateService.update(requestLinkUpdate);
+        updateService.updateProcess(requestLinkUpdate);
         return ResponseEntity.ok(new ResponseLinkUpdate("OK"));
     }
 }

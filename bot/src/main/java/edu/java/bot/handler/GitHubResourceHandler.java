@@ -1,5 +1,6 @@
 package edu.java.bot.handler;
 
+import edu.java.core.entity.enums.ResourceType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +13,7 @@ public class GitHubResourceHandler implements ResourceHandler {
     }
 
     @Override
-    public boolean checkUpdates(String resourceURL) {
-        return true;
+    public ResourceType getResourceType() {
+        return ResourceType.GITHUB;
     }
 }

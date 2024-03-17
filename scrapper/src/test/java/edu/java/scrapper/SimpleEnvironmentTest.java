@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.Assert.assertTrue;
 
-class SimpleTest extends IntegrationTest {
+class SimpleEnvironmentTest extends IntegrationEnvironment {
 
     @Test
     void testMigration() throws Exception {
@@ -25,7 +25,7 @@ class SimpleTest extends IntegrationTest {
                 "AND table_name = 'chats'" +
                 ");");
 
-            assertTrue(resultSet.next());
+            Assertions.assertTrue(resultSet.next());
         }
     }
 }

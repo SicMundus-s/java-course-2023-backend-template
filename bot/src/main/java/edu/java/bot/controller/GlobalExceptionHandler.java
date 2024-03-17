@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BadRequestException.class)
-    protected ResponseEntity<ApiErrorResponse> handleConflict(BadRequestException ex) {
+    public ResponseEntity<ApiErrorResponse> handleConflict(BadRequestException ex) {
         ApiErrorResponse response = new ApiErrorResponse(
             "Некорректные параметры запроса",
             String.valueOf(HttpStatus.BAD_REQUEST.value()),

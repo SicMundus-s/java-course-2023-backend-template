@@ -11,9 +11,11 @@ import edu.java.bot.service.Bot;
 import edu.java.bot.service.UserMessageProcessor;
 import edu.java.bot.util.BotCommandSetter;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class BotImpl implements Bot {
 
     private final TelegramBot telegramBot;
@@ -38,9 +40,13 @@ public class BotImpl implements Bot {
     @Override
     public int process(List<Update> updates) {
         for (Update update : updates) {
-            SendMessage response = messageProcessor.process(update);
-            if (response != null) {
-                execute(response);
+            try {
+                SendMessage response = messageProcessor.process(update);
+                if (response != null) {
+                    execute(response);
+                }
+            } catch (Exception e) {
+                log.error("Error processing update: {}", e.getMessage(), e);
             }
         }
         return UpdatesListener.CONFIRMED_UPDATES_ALL;

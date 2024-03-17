@@ -3,22 +3,22 @@ package edu.java.scrapper.client;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import edu.java.scrapper.dto.StackOverflowResponse;
 import edu.java.scrapper.mapper.StackOverflowQuestionResponseMapper;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.configureFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 
-public class StackOverflowClientTest {
+class StackOverflowClientTest {
 
     private WireMockServer wireMockServer;
     private StackOverflowClient stackOverflowClient;
@@ -34,7 +34,6 @@ public class StackOverflowClientTest {
                 .withHeader("Content-Type", "application/json")
                 .withBody("{\"items\": [{\"last_activity_date\": 1680213422}]}")));
 
-        // Инициализация клиента с базовым URL WireMock сервера
         WebClient webClient = WebClient.builder()
             .baseUrl("http://localhost:8089")
             .build();

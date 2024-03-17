@@ -9,10 +9,8 @@ public class BotClient {
 
     private final WebClient webClient;
 
-    public BotClient(String baseUrl) {
-        this.webClient = WebClient.builder()
-            .baseUrl(baseUrl)
-            .build();
+    public BotClient(WebClient webClient) {
+        this.webClient = webClient;
     }
 
     public Mono<ResponseLinkUpdate> sendUpdate(RequestLinkUpdate requestLinkUpdate) {

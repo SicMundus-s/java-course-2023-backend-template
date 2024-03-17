@@ -1,34 +1,15 @@
 package edu.java.scrapper.service;
 
-import edu.java.core.exception.BadRequestException;
-import edu.java.core.exception.NotFoundException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
+import edu.java.scrapper.entity.Chat;
+import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class ChatService {
+public interface ChatService {
 
-    private final JdbcTemplate jdbcTemplate;
+    void register(long chatId);
 
-    public void registreation(Long id) {
-        if (isNotRegistered(id)) {
-            throw new BadRequestException("Chat is already registered");
-        }
+    void unregister(long chatId);
 
-        jdbcTemplate.update("INSERT INTO chat(id) VALUES (?)", id);
-    }
+    List<Chat> findAllChatsByLinkId(Long linkId);
 
-    public void delete(Long id) {
-        int rowsAffected = jdbcTemplate.update("DELETE FROM chat WHERE id = ?", id);
-        if (rowsAffected == 0) {
-            throw new NotFoundException("Chat with ID: " + id + " does not exist");
-        }
-    }
-
-    public boolean isNotRegistered(Long id) {
-        Long saveId = jdbcTemplate.queryForObject("SELECT id FROM chat WHERE id = ?", Long.class, id);
-        return saveId == null || saveId <= 0;
-    }
+    Chat findChatByChatId(Long chatId);
 }

@@ -2,15 +2,20 @@ package edu.java.bot.comand;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.service.impl.UpdateService;
+import edu.java.bot.service.CommandService;
+import edu.java.core.dto.AddLinkRequest;
+import edu.java.core.dto.LinkResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import static edu.java.bot.util.CommandExceptionHandler.handleCustomException;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class TrackCommand implements Command {
 
-    private final UpdateService updateService;
+    private final CommandService commandService;
 
     @Override
     public String command() {
@@ -31,12 +36,17 @@ public class TrackCommand implements Command {
         if (parts.length < 2) {
             return new SendMessage(id, "Usage: /track <URL>");
         }
-
         String url = parts[1];
-        if (updateService.checkResourceURL(id, url)) {
-            return new SendMessage(id, "Started tracking: " + url);
-        } else {
-            return new SendMessage(id, "This URL is not supported for tracking.");
+        AddLinkRequest addLinkRequest = new AddLinkRequest();
+        addLinkRequest.setLink(url);
+
+        String response;
+        try {
+            LinkResponse linkResponse = commandService.addLink(id, addLinkRequest).block();
+            response = "Started tracking: " + linkResponse.url().toString();
+        } catch (Exception e) {
+            response = handleCustomException(e, id);
         }
+        return new SendMessage(id, response);
     }
 }

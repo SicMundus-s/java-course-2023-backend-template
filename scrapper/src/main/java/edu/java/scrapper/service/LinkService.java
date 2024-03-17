@@ -1,29 +1,21 @@
 package edu.java.scrapper.service;
 
+import edu.java.core.dto.AddLinkRequest;
 import edu.java.core.dto.LinkResponse;
-import edu.java.core.dto.ListLinksResponse;
-import edu.java.scrapper.aop.CheckRegistration;
+import edu.java.scrapper.entity.Link;
 import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.List;
-import org.intellij.lang.annotations.MagicConstant;
-import org.springframework.stereotype.Service;
 
-@Service
-public class LinkService {
-    @CheckRegistration
-    @MagicConstant
-    public ListLinksResponse getLinks(Long chatId) {
-        return new ListLinksResponse(List.of(), chatId.intValue());
-    }
+public interface LinkService {
 
-    @CheckRegistration
-    public LinkResponse addLink(Long chatId, URI uri) {
-        return new LinkResponse(chatId, uri);
-    }
+    LinkResponse add(Long chatId, AddLinkRequest addLinkRequest);
 
-    @CheckRegistration
-    public LinkResponse removeLink(Long chatId, URI uri) {
-        // ToDo "404" "Ссылка не найдена",
-        return new LinkResponse(chatId, uri);
-    }
+    LinkResponse remove(Long chatId, URI url);
+
+    List<LinkResponse> listAll(Long chatId);
+
+    List<Link> findLinksToCheck(OffsetDateTime lastCheckedBefore);
+
+    void updateLink(Link link);
 }
