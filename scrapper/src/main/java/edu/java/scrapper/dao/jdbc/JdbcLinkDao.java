@@ -24,7 +24,7 @@ public class JdbcLinkDao {
 
     private static final String SELECT_LINK =
         "SELECT * FROM links where id = ?";
-    private static final String SELECT_LINK_BY_СHATID_AND_URL =
+    private static final String SELECT_LINK_BY_CHATID_AND_URL =
         "SELECT * FROM links l "
             + "JOIN chat_links cl ON l.id = cl.link_id "
             + "JOIN chats c ON cl.chat_id = c.id "
@@ -41,7 +41,7 @@ public class JdbcLinkDao {
     @Transactional
     public Link save(long actualChatId, Link link) {
         List<Link> saveLink =
-            jdbcTemplate.query(SELECT_LINK_BY_СHATID_AND_URL, linkRowMapper, link.getUrl(), actualChatId);
+            jdbcTemplate.query(SELECT_LINK_BY_CHATID_AND_URL, linkRowMapper, link.getUrl(), actualChatId);
 
         if (!saveLink.isEmpty()) {
             throw new BadRequestException("URL already exists for this chat.");
@@ -67,7 +67,7 @@ public class JdbcLinkDao {
 
     @Transactional
     public Link delete(long chatId, URI url) {
-        List<Link> saveLink = jdbcTemplate.query(SELECT_LINK_BY_СHATID_AND_URL, linkRowMapper, url.toString(), chatId);
+        List<Link> saveLink = jdbcTemplate.query(SELECT_LINK_BY_CHATID_AND_URL, linkRowMapper, url.toString(), chatId);
         if (saveLink.isEmpty()) {
             throw new NotFoundException("Link not found");
         }
