@@ -7,6 +7,7 @@ appsrap:
     github: "https://api.github.com"
     stackoverflow: "https://api.stackexchange.com/2.3"
     bot: "http://localhost:8090/v0/bot"
+  database-access-type: jpa
 
 springdoc:
   swagger-ui:

@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ChatController {
 
-    private final ChatService jdbcChatServiceImpl;
+    private final ChatService chatService;
 
     @PostMapping("/tg-chat/{id}")
     public ResponseEntity<ResponseChat> registerChat(@PathVariable Long id) {
         idIsIncorrect(id);
-        jdbcChatServiceImpl.register(id);
+        chatService.register(id);
         return ResponseEntity.ok(new ResponseChat("Chat registered"));
     }
 
     @DeleteMapping("/tg-chat/{id}")
     public ResponseEntity<ResponseChat> deleteChat(@PathVariable Long id) {
         idIsIncorrect(id);
-        jdbcChatServiceImpl.unregister(id);
+        chatService.unregister(id);
         return ResponseEntity.ok(new ResponseChat("Chat successfully deleted"));
     }
 

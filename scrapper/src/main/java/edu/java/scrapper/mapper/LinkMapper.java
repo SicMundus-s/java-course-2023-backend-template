@@ -5,6 +5,7 @@ import edu.java.core.dto.LinkResponse;
 import edu.java.core.dto.RequestLinkUpdate;
 import edu.java.scrapper.entity.Link;
 import java.net.URI;
+import java.time.OffsetDateTime;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +18,12 @@ public class LinkMapper {
 
     public Link toEntity(AddLinkRequest addLinkRequest) {
         Link link = new Link();
+        link.setUpdatedAt(OffsetDateTime.now());
         link.setUrl(addLinkRequest.getLink());
         link.setResourceType(addLinkRequest.getResourceType());
+        link.setLastCheck(OffsetDateTime.now());
+        link.setStackoverflowLastEditDateQuestion(OffsetDateTime.now());
+        link.setGithubUpdatedAt(OffsetDateTime.now());
         return link;
     }
 
