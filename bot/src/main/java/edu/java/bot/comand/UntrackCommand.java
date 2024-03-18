@@ -2,13 +2,17 @@ package edu.java.bot.comand;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.repository.UrlRepository;
+import edu.java.bot.service.CommandService;
+import edu.java.core.dto.LinkResponse;
+import edu.java.core.dto.RemoveLinkRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import static edu.java.bot.util.CommandExceptionHandler.handleCustomException;
 
 @Component
+@RequiredArgsConstructor
 public class UntrackCommand implements Command {
-
-    private final UrlRepository urlRepository = UrlRepository.getInstance();
+    private final CommandService commandService;
 
     @Override
     public String command() {
@@ -31,11 +35,14 @@ public class UntrackCommand implements Command {
         }
 
         String url = parts[1];
-        if (urlRepository.removeUrl(id, url)) {
-            return new SendMessage(id, "Untracking: " + url);
-        } else {
-            return new SendMessage(id, "This url was not found");
+        String response;
+        try {
+            LinkResponse linkResponse = commandService.removeLink(id, new RemoveLinkRequest(url)).block();
+            response = "Untracking: " + linkResponse.url().toString();
+        } catch (Exception e) {
+            response = handleCustomException(e, id);
         }
 
+        return new SendMessage(id, response);
     }
 }

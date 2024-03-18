@@ -5,78 +5,72 @@ import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.comand.TrackCommand;
-import edu.java.bot.service.impl.UpdateService;
-import org.junit.jupiter.api.BeforeEach;
+import edu.java.bot.service.CommandService;
+import edu.java.core.dto.AddLinkRequest;
+import edu.java.core.dto.LinkResponse;
+import java.net.URI;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.anyLong;
-import static org.mockito.BDDMockito.eq;
-import static org.mockito.BDDMockito.given;
+import reactor.core.publisher.Mono;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TrackCommandTest {
 
     @Mock
-    private UpdateService updateService;
-    @Mock
-    private Update update;
-    @Mock
-    private Message message;
-    @Mock
-    private Chat chat;
+    private CommandService commandService;
 
     @InjectMocks
     private TrackCommand trackCommand;
 
-    private final Long chatId = 123L;
-
-    @BeforeEach
-    public void setUp() {
-        given(update.message()).willReturn(message);
-        given(message.chat()).willReturn(chat);
-        given(chat.id()).willReturn(chatId);
-    }
-
     @Test
-    void testTrackCommandWithoutURL() {
-        given(message.text()).willReturn("/track");
+    void handleSuccessfullyAddsLink() {
+        Long chatId = 123L;
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        Chat chat = mock(Chat.class);
+        when(update.message()).thenReturn(message);
+        when(message.chat()).thenReturn(chat);
+        when(chat.id()).thenReturn(chatId);
+        when(message.text()).thenReturn("/track http://example.com");
 
-        SendMessage response = trackCommand.handle(update);
-        Long id = (Long) response.getParameters().get("chat_id");
-        String text = (String) response.getParameters().get("text");
-        assertThat(id).isEqualTo(chatId);
-        assertThat(text).isEqualTo("Usage: /track <URL>");
+        LinkResponse linkResponse = new LinkResponse(1L, URI.create("http://example.com"));
+        when(commandService.addLink(any(Long.class), any(AddLinkRequest.class))).thenReturn(Mono.just(linkResponse));
+
+        SendMessage result = trackCommand.handle(update);
+        String resultJson = result.toWebhookResponse();
+        assertEquals(
+            "{\"chat_id\":123,\"text\":\"Started tracking: http://example.com\",\"method\":\"sendMessage\"}",
+            resultJson
+        );
     }
-
     @Test
-    void testTrackCommandWithSupportedURL() {
-        String supportedURL = "http://example.com";
-        given(message.text()).willReturn("/track " + supportedURL);
-        given(updateService.checkResourceURL(anyLong(), eq(supportedURL))).willReturn(true);
+    void handleReturnsErrorMessageOnFailure() {
+        Long chatId = 123L;
+        Update update = mock(Update.class);
+        Message message = mock(Message.class);
+        Chat chat = mock(Chat.class);
+        when(update.message()).thenReturn(message);
+        when(message.chat()).thenReturn(chat);
+        when(chat.id()).thenReturn(chatId);
+        when(message.text()).thenReturn("/track http://example.com");
 
-        SendMessage response = trackCommand.handle(update);
+        when(commandService.addLink(
+            any(Long.class),
+            any(AddLinkRequest.class)
+        )).thenReturn(Mono.error(new RuntimeException("Failed to add link")));
 
-        Long id = (Long) response.getParameters().get("chat_id");
-        String text = (String) response.getParameters().get("text");
-        assertThat(id).isEqualTo(chatId);
-        assertThat(text).isEqualTo("Started tracking: " + supportedURL);
-    }
-
-    @Test
-    void testTrackCommandWithUnsupportedURL() {
-        String unsupportedURL = "http://unsupported.com";
-        given(message.text()).willReturn("/track " + unsupportedURL);
-        given(updateService.checkResourceURL(anyLong(), eq(unsupportedURL))).willReturn(false);
-
-        SendMessage response = trackCommand.handle(update);
-
-        Long id = (Long) response.getParameters().get("chat_id");
-        String text = (String) response.getParameters().get("text");
-        assertThat(id).isEqualTo(chatId);
-        assertThat(text).isEqualTo("This URL is not supported for tracking.");
+        SendMessage result = trackCommand.handle(update);
+        String resultJson = result.toWebhookResponse();
+        assertEquals(
+            "{\"chat_id\":123,\"text\":\"Something went wrong. Please try again later.\",\"method\":\"sendMessage\"}",
+            resultJson
+        );
     }
 }

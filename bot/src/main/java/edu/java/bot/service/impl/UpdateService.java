@@ -1,51 +1,25 @@
 package edu.java.bot.service.impl;
 
-import edu.java.bot.handler.ResourceHandler;
-import edu.java.bot.repository.UrlRepository;
+import com.pengrad.telegrambot.request.SendMessage;
+import edu.java.bot.service.Bot;
 import edu.java.core.dto.RequestLinkUpdate;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import static edu.java.bot.util.UrlChecker.checkUrlExists;
 
 @Service
+@RequiredArgsConstructor
 public class UpdateService {
-    private final List<ResourceHandler> handlers;
-    private final UrlRepository urlRepository = UrlRepository.getInstance();
 
-    @Autowired
-    public UpdateService(List<ResourceHandler> handlers) {
-        this.handlers = handlers;
+    private final Bot bot;
+
+    public void updateProcess(RequestLinkUpdate requestLinkUpdate) {
+        List<Long> chatIds = requestLinkUpdate.tgChatIds();
+
+        chatIds.forEach(chatId -> {
+            SendMessage sendMessage = new SendMessage(chatId, requestLinkUpdate.description());
+            bot.execute(sendMessage);
+        });
     }
 
-    public boolean checkResourceURL(Long chatId, String resourceURL) {
-        if (canHandle(resourceURL) && checkUrlExists(resourceURL)) {
-            return urlRepository.addUrl(chatId, resourceURL);
-        }
-        return false;
-    }
-
-    public void checkUpdates(String resourceURL) {
-        // ToDo remove?
-        for (ResourceHandler handler : handlers) {
-            if (handler.checkUpdates(resourceURL)) {
-                // ToDo дописать лог и шедуллер для вызова
-                break;
-            }
-        }
-    }
-
-    private boolean canHandle(String url) {
-        // ToDo remove
-        for (ResourceHandler resourceHandler : handlers) {
-            if (resourceHandler.canHandle(url)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public void update(RequestLinkUpdate requestLinkUpdate) {
-
-    }
 }

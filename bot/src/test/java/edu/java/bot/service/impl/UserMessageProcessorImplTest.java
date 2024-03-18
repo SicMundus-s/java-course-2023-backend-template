@@ -1,11 +1,10 @@
-package edu.java.bot.service;
+package edu.java.bot.service.impl;
 
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.comand.Command;
-import edu.java.bot.service.impl.UserMessageProcessorImpl;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,7 +18,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
-public class UserMessageProcessorImplTest {
+class UserMessageProcessorImplTest {
 
     @Mock
     private Update update;

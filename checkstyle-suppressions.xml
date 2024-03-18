@@ -5,4 +5,10 @@
     "https://checkstyle.org/dtds/suppressions_1_2.dtd">
 
 <suppressions>
+    <suppress files="[/\\]domain[/\\]" checks=".*"/>
+    <!-- Игнорирование правила MultipleStringLiterals для всех файлов -->
+    <suppress checks="MultipleStringLiterals" files=".*"/>
+
+    <!-- Игнорирование правила MagicNumber для всех файлов -->
+    <suppress checks="MagicNumber" files=".*"/>
 </suppressions>
