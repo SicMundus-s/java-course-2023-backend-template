@@ -39,6 +39,7 @@ class JpaChatServiceImplTest extends IntegrationEnvironment {
 
     @Test
     @Transactional
+    @Rollback
     void whenUnregisterExistingChat_thenItShouldBeUnregistered() {
         long chatId = 456L;
         chatService.register(chatId);
@@ -49,6 +50,7 @@ class JpaChatServiceImplTest extends IntegrationEnvironment {
 
     @Test
     @Transactional
+    @Rollback
     void whenFindChatByChatId_thenItShouldReturnChat() {
         long chatId = 789L;
         chatService.register(chatId);
