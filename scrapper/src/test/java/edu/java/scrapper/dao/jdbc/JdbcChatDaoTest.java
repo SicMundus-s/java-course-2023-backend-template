@@ -3,11 +3,14 @@ package edu.java.scrapper.dao.jdbc;
 import edu.java.scrapper.IntegrationEnvironment;
 import edu.java.scrapper.entity.Chat;
 import edu.java.scrapper.mapper.rowmapper.ChatRowMapper;
+import java.sql.PreparedStatement;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -91,13 +94,27 @@ class JdbcChatDaoTest extends IntegrationEnvironment {
     void findAllChatsByLinkIdTest() {
         Long chatId1 = 10001L;
         Long chatId2 = 10002L;
-        Long linkId = 1L;
 
         jdbcTemplate.update("INSERT INTO chats (chat_id) VALUES (?)", chatId1);
         jdbcTemplate.update("INSERT INTO chats (chat_id) VALUES (?)", chatId2);
 
         Long chatDbId1 = jdbcTemplate.queryForObject("SELECT id FROM chats WHERE chat_id = ?", Long.class, chatId1);
         Long chatDbId2 = jdbcTemplate.queryForObject("SELECT id FROM chats WHERE chat_id = ?", Long.class, chatId2);
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+            connection -> {
+                PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO links (url, resource_type) VALUES (?, ?::resource_type)",
+                    new String[] {"id"}
+                );
+                ps.setString(1, "https://example.com");
+                ps.setString(2, "GITHUB");
+                return ps;
+            },
+            keyHolder
+        );
+        Long linkId = keyHolder.getKey().longValue();
 
         jdbcTemplate.update(
             "INSERT INTO links (url, resource_type) VALUES  (?, ?::resource_type)",
