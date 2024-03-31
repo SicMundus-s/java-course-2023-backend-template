@@ -5,7 +5,7 @@ import edu.java.core.dto.LinkResponse;
 import edu.java.core.dto.ListLinksResponse;
 import edu.java.core.dto.RemoveLinkRequest;
 import edu.java.core.exception.BadRequestException;
-import edu.java.scrapper.service.impl.jdbc.JdbcLinkServiceImpl;
+import edu.java.scrapper.service.LinkService;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LinkController {
 
-    private final JdbcLinkServiceImpl jdbcLinkServiceImpl;
+    private final LinkService linkService;
 
     @GetMapping("/links")
     public ResponseEntity<ListLinksResponse> getLinks(@RequestHeader("Tg-Chat-Id") String chatId) {
         Long id = Long.parseLong(chatId);
         idIsIncorrect(id);
-        List<LinkResponse> linkResponses = jdbcLinkServiceImpl.listAll(id);
+        List<LinkResponse> linkResponses = linkService.listAll(id);
         return ResponseEntity.ok(new ListLinksResponse(linkResponses, linkResponses.size()));
 
     }
@@ -43,7 +43,7 @@ public class LinkController {
         idIsIncorrect(id);
         LinkResponse link;
 
-        link = jdbcLinkServiceImpl.add(id, request);
+        link = linkService.add(id, request);
 
         return ResponseEntity.ok(link);
     }
@@ -57,7 +57,7 @@ public class LinkController {
         idIsIncorrect(id);
         LinkResponse link;
         try {
-            link = jdbcLinkServiceImpl.remove(id, URI.create(request.link()));
+            link = linkService.remove(id, URI.create(request.link()));
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("Incorrect link to delete");
         }

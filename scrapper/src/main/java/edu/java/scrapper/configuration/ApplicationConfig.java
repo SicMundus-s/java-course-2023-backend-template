@@ -10,7 +10,8 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 @ConfigurationProperties(prefix = "appsrap", ignoreUnknownFields = false)
 public record ApplicationConfig(@NotNull @Bean Scheduler scheduler,
-                                @NotNull @Bean BaseUrlClient baseUrlClient) {
+                                @NotNull @Bean BaseUrlClient baseUrlClient,
+                                @NotNull AccessType databaseAccessType) {
 
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
     }
