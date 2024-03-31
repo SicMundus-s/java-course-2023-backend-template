@@ -22,6 +22,26 @@ spring:
     password: postgres
   liquibase:
     enabled: false
+  cache:
+    cache-names:
+      - rate-limit-buckets
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
+
+bucket4j:
+  enabled: true
+  filters:
+    - filter-method: servlet
+    - cache-name: ip-rate-limit
+      url: /*
+      http-response-body: "{ \"status\": 429, \"error\": \"Too Many Requests\", \"message\": \"You have exhausted your API Request Quota\" }"
+      strategy: first
+      rate-limits:
+        - bandwidths:
+            - capacity: 20
+              time: 1
+              unit: minutes
+
 
 server:
   port: 8080
