@@ -1,12 +1,14 @@
 package edu.java.scrapper.configuration;
 
+import edu.java.core.entity.enums.RetryBackoffStrategy;
 import java.time.Duration;
 import java.util.List;
 import java.util.function.Predicate;
-import edu.java.core.entity.enums.RetryBackoffStrategy;
+import lombok.experimental.UtilityClass;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.util.retry.Retry;
 
+@UtilityClass
 public class RetryPolicyConfig {
 
     private static final Integer MAX_ATTEMPTS = 5;
@@ -18,8 +20,8 @@ public class RetryPolicyConfig {
         List<Integer> retryStatusCodes
     ) {
         Predicate<Throwable> retryOnStatusCodes = e ->
-            e instanceof WebClientResponseException webClientResponseException &&
-                retryStatusCodes.contains((webClientResponseException).getStatusCode().value());
+            e instanceof WebClientResponseException webClientResponseException
+                && retryStatusCodes.contains((webClientResponseException).getStatusCode().value());
 
         return createRetryPolicy(
             strategy,
