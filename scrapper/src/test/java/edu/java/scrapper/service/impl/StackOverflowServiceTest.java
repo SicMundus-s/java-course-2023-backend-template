@@ -14,6 +14,7 @@ import edu.java.scrapper.service.LinkService;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.List;
+import edu.java.scrapper.service.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -36,7 +37,7 @@ class StackOverflowServiceTest {
     private StackOverflowClient stackOverflowClient;
 
     @Mock
-    private BotClient botClient;
+    private NotificationService notificationService;
 
     @Mock
     private ChatService jdbcChatServiceImpl;
@@ -76,7 +77,7 @@ class StackOverflowServiceTest {
             "description",
             List.of(12345L)
         ));
-        when(botClient.sendUpdate(any(RequestLinkUpdate.class)))
+        when(notificationService.sendNotification(any(RequestLinkUpdate.class)))
             .thenReturn(Mono.just(new ResponseLinkUpdate("Success")));
         doNothing().when(jdbcLinkServiceImpl).updateLink(any(Link.class));
 
@@ -85,6 +86,5 @@ class StackOverflowServiceTest {
         verify(stackOverflowClient, times(1)).fetchQuestionInfo("12345678");
         verify(jdbcChatServiceImpl, times(1)).findAllChatsByLinkId(1L);
         verify(jdbcLinkServiceImpl, times(1)).updateLink(link);
-        verify(botClient, times(1)).sendUpdate(any(RequestLinkUpdate.class));
     }
 }

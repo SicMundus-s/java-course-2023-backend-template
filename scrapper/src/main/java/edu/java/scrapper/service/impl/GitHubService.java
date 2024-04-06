@@ -1,6 +1,5 @@
 package edu.java.scrapper.service.impl;
 
-import edu.java.scrapper.client.BotClient;
 import edu.java.scrapper.client.GitHubClient;
 import edu.java.scrapper.dto.GitHubRepositoryResponse;
 import edu.java.scrapper.entity.Chat;
@@ -8,6 +7,7 @@ import edu.java.scrapper.entity.Link;
 import edu.java.scrapper.mapper.LinkMapper;
 import edu.java.scrapper.service.ChatService;
 import edu.java.scrapper.service.LinkService;
+import edu.java.scrapper.service.NotificationService;
 import edu.java.scrapper.service.ResourceUpdateService;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
 public class GitHubService implements ResourceUpdateService {
 
     private final GitHubClient gitHubClient;
-    private final BotClient botClient;
+    private final NotificationService notificationService;
     private final ChatService jdbcChatServiceImpl;
     private final LinkService jdbcLinkServiceImpl;
     private final LinkMapper linkMapper;
@@ -63,7 +63,8 @@ public class GitHubService implements ResourceUpdateService {
                         .toList();
                     link.setLastCheck(OffsetDateTime.now());
                     jdbcLinkServiceImpl.updateLink(link);
-                    botClient.sendUpdate(linkMapper.toDtoUpdate(link, tgChatIds, description.toString()))
+                    notificationService
+                        .sendNotification(linkMapper.toDtoUpdate(link, tgChatIds, description.toString()))
                         .subscribe(r -> log.info("Message sent: {}, update success", r.description()));
                 } else {
                     link.setLastCheck(OffsetDateTime.now());

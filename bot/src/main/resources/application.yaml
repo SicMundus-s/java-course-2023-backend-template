@@ -2,6 +2,13 @@ app:
   telegram-token: ${TELEGRAM_TOKEN}
   scrapper: "http://localhost:8080/v0/chats"
 
+kafka:
+  bootstrap-servers: localhost:9092
+  topic-dlq: Topic1_dlq
+  scrapper-topic:
+    name: Topic1
+  group-id: bot-group
+
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

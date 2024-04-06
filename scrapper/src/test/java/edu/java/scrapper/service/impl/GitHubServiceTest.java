@@ -12,6 +12,7 @@ import edu.java.scrapper.service.ChatService;
 import edu.java.scrapper.service.LinkService;
 import java.time.OffsetDateTime;
 import java.util.List;
+import edu.java.scrapper.service.NotificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,7 +35,7 @@ class GitHubServiceTest {
     private GitHubClient gitHubClient;
 
     @Mock
-    private BotClient botClient;
+    private NotificationService notificationService;
 
     @Mock
     private ChatService jdbcChatServiceImpl;
@@ -70,7 +71,7 @@ class GitHubServiceTest {
             "description",
             List.of(12345L)
         ));
-        when(botClient.sendUpdate(any(RequestLinkUpdate.class)))
+        when(notificationService.sendNotification(any(RequestLinkUpdate.class)))
             .thenReturn(Mono.just(new ResponseLinkUpdate("Success")));
         doNothing().when(jdbcLinkServiceImpl).updateLink(any(Link.class));
 
@@ -79,6 +80,6 @@ class GitHubServiceTest {
         verify(gitHubClient, times(1)).fetchRepositoryInfo("owner", "repo");
         verify(jdbcChatServiceImpl, times(1)).findAllChatsByLinkId(1L);
         verify(jdbcLinkServiceImpl, times(1)).updateLink(link);
-        verify(botClient, times(1)).sendUpdate(any(RequestLinkUpdate.class));
+        verify(notificationService, times(1)).sendNotification(any(RequestLinkUpdate.class));
     }
 }

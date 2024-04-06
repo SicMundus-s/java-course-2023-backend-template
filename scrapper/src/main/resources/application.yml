@@ -8,6 +8,11 @@ appsrap:
     stackoverflow: "https://api.stackexchange.com/2.3"
     bot: "http://localhost:8090/v0/bot"
   database-access-type: jpa
+  use-queue: true
+
+kafka:
+  bootstrap-servers: localhost:9092
+  topic: Topic1
 
 springdoc:
   swagger-ui:
