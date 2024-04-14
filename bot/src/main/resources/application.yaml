@@ -16,6 +16,9 @@ springdoc:
 spring:
   application:
     name: bot
+  metrics:
+    tags:
+      application: "${spring.application.name}"
   jackson:
     time-zone: UTC
   cache:
@@ -38,6 +41,16 @@ bucket4j:
               time: 1
               unit: minutes
 
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      base-path: "/"
+      exposure:
+        include: [ "info", "health", "prometheus" ]
+      path-mapping:
+        prometheus: "metrics"
 
 server:
   port: 8090
