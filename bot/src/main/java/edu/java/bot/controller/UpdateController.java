@@ -1,6 +1,6 @@
 package edu.java.bot.controller;
 
-import edu.java.bot.service.impl.UpdateService;
+import edu.java.bot.service.impl.NotificationService;
 import edu.java.core.dto.RequestLinkUpdate;
 import edu.java.core.dto.ResponseLinkUpdate;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UpdateController {
 
-    private final UpdateService updateService;
+    private final NotificationService notificationService;
 
     @PostMapping("/updates")
     public ResponseEntity<ResponseLinkUpdate> sendUpdate(@RequestBody RequestLinkUpdate requestLinkUpdate) {
-        updateService.updateProcess(requestLinkUpdate);
+        notificationService.processNotification(requestLinkUpdate);
         return ResponseEntity.ok(new ResponseLinkUpdate("OK"));
     }
 }

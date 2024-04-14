@@ -12,7 +12,8 @@ import org.springframework.validation.annotation.Validated;
 public record ApplicationConfig(
     @NotNull @Bean Scheduler scheduler,
     @NotNull @Bean BaseUrlClient baseUrlClient,
-    @NotNull AccessType databaseAccessType
+    @NotNull AccessType databaseAccessType,
+    boolean useQueue
 ) {
 
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {

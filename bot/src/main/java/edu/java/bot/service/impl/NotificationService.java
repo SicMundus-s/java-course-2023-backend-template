@@ -2,6 +2,7 @@ package edu.java.bot.service.impl;
 
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.service.Bot;
+import edu.java.bot.service.NotificationProcessor;
 import edu.java.core.dto.RequestLinkUpdate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UpdateService {
+public class NotificationService implements NotificationProcessor {
 
     private final Bot bot;
 
-    public void updateProcess(RequestLinkUpdate requestLinkUpdate) {
+    @Override
+    public void processNotification(RequestLinkUpdate requestLinkUpdate) {
         List<Long> chatIds = requestLinkUpdate.tgChatIds();
 
         chatIds.forEach(chatId -> {
@@ -21,5 +23,4 @@ public class UpdateService {
             bot.execute(sendMessage);
         });
     }
-
 }

@@ -1,7 +1,7 @@
 package edu.java.bot.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edu.java.bot.service.impl.UpdateService;
+import edu.java.bot.service.impl.NotificationService;
 import edu.java.core.dto.RequestLinkUpdate;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ class UpdateControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private UpdateService updateService;
+    private NotificationService notificationService;
 
     @Autowired
     private ObjectMapper objectMapper;
