@@ -291,6 +291,45 @@
                         <failsOnError>true</failsOnError>
                     </configuration>
                 </plugin>
+
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>0.44.0</version>
+                    <configuration>
+                        <images>
+                            <image>
+                                <name>bot-app:${project.version}</name>
+                                <build>
+                                    <dockerFileDir>${project.basedir}</dockerFileDir>
+                                    <dockerFile>bot.Dockerfile</dockerFile>
+                                    <tags>
+                                        <tag>latest</tag>
+                                    </tags>
+                                </build>
+                            </image>
+                            <image>
+                                <name>scrapper-app:${project.version}</name>
+                                <build>
+                                    <dockerFileDir>${project.basedir}</dockerFileDir>
+                                    <dockerFile>scrapper.Dockerfile</dockerFile>
+                                    <tags>
+                                        <tag>latest</tag>
+                                    </tags>
+                                </build>
+                            </image>
+                        </images>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>build-docker-images</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>
