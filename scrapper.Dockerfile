@@ -6,4 +6,4 @@ COPY target/scrapper.jar /app/scrapper.jar
 
 EXPOSE 8081
 
-CMD ["java", "-jar", "scrapper-app.jar"]
+CMD ["java", "-jar", "scrapper.jar"]
