@@ -299,7 +299,7 @@
                     <configuration>
                         <images>
                             <image>
-                                <name>bot-app:${project.version}</name>
+                                <name>bot:${project.version}</name>
                                 <build>
                                     <dockerFileDir>${project.basedir}</dockerFileDir>
                                     <dockerFile>bot.Dockerfile</dockerFile>
@@ -309,7 +309,7 @@
                                 </build>
                             </image>
                             <image>
-                                <name>scrapper-app:${project.version}</name>
+                                <name>scrapper:${project.version}</name>
                                 <build>
                                     <dockerFileDir>${project.basedir}</dockerFileDir>
                                     <dockerFile>scrapper.Dockerfile</dockerFile>
