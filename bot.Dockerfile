@@ -2,7 +2,7 @@ FROM openjdk:21-jdk-slim
 
 WORKDIR /app
 
-COPY root/bot/target/bot.jar /app/bot.jar
+COPY java-course-2023-backend-template/bot/target/bot.jar /app/bot.jar
 
 EXPOSE 8080
 

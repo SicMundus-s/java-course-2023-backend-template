@@ -2,7 +2,7 @@ FROM openjdk:21-jdk-slim
 
 WORKDIR /app
 
-COPY root/scrapper/target/scrapper.jar /app/scrapper.jar
+COPY java-course-2023-backend-template/scrapper/target/scrapper.jar /app/scrapper.jar
 
 EXPOSE 8081
 
