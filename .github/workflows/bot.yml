@@ -90,6 +90,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./bot
-          file: ./bot.Dockerfile
+          file: ./bot/bot.Dockerfile
           tags: ghcr.io/${{ env.REPO_NAME_LOWER }}/bot:${{ github.sha }}
           push: true

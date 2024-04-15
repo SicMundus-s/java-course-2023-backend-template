@@ -90,6 +90,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./scrapper
-          file: ./scrapper.Dockerfile
+          file: ./scrapper/scrapper.Dockerfile
           tags: ghcr.io/${{ env.REPO_NAME_LOWER }}/scrapper:${{ github.sha }}
           push: true
