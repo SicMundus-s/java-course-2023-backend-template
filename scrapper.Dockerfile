@@ -2,7 +2,7 @@ FROM openjdk:21-jdk-slim
 
 WORKDIR /app
 
-COPY target/scrapper-app.jar /app/scrapper-app.jar
+COPY target/scrapper.jar /app/scrapper.jar
 
 EXPOSE 8081
 
