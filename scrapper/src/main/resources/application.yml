@@ -21,6 +21,9 @@ springdoc:
 spring:
   application:
     name: scrapper
+  metrics:
+    tags:
+      application: "${spring.application.name}"
   datasource:
     url: jdbc:postgresql://localhost:5432/scrapper
     username: postgres
@@ -46,6 +49,17 @@ bucket4j:
             - capacity: 20
               time: 1
               unit: minutes
+
+management:
+  server:
+    port: 8082
+  endpoints:
+    web:
+      base-path: "/"
+      exposure:
+        include: [ "info", "health", "prometheus" ]
+      path-mapping:
+        prometheus: "metrics"
 
 
 server:
